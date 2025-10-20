@@ -37,7 +37,6 @@ function App() {
     <div className="app">
       <header className="header">
         <h1>Base64 - Codificação Visual</h1>
-        <p>Aprenda como funciona a codificação Base64 de forma interativa</p>
       </header>
 
       <div className="tabs">
