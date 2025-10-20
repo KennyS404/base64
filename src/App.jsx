@@ -145,7 +145,7 @@ function App() {
               </div>
               
               <p className="tabela-nota">
-                <strong>Nota:</strong> O caractere <code>=</code> é usado como padding quando necessário.
+                <strong>Nota:</strong> O caractere <code>=</code> é usado como padding quando o texto não é múltiplo de 3 bytes.
               </p>
             </div>
 
@@ -156,8 +156,8 @@ function App() {
                   <div className="numero">1</div>
                   <div className="desc">
                     <h3>Texto → Binário</h3>
-                    <p>Cada caractere vira 8 bits (ASCII)</p>
-                    <div className="exemplo">A → 01000001</div>
+                    <p>Cada caractere vira 8 bits (ASCII/UTF-8)</p>
+                    <div className="exemplo">"ABC" → 3 bytes = 24 bits</div>
                   </div>
                 </div>
                 
@@ -166,9 +166,9 @@ function App() {
                 <div className="passo">
                   <div className="numero">2</div>
                   <div className="desc">
-                    <h3>Agrupa em 6 bits</h3>
-                    <p>Divide os bits em grupos de 6</p>
-                    <div className="exemplo">010000 | 01</div>
+                    <h3>Reagrupa em 6 bits</h3>
+                    <p>24 bits divididos em 4 grupos de 6 bits</p>
+                    <div className="exemplo">24 bits = 4 grupos de 6 bits</div>
                   </div>
                 </div>
                 
@@ -178,8 +178,19 @@ function App() {
                   <div className="numero">3</div>
                   <div className="desc">
                     <h3>Converte para Base64</h3>
-                    <p>Cada grupo de 6 bits vira 1 caractere</p>
-                    <div className="exemplo">010000 → Q</div>
+                    <p>Cada grupo de 6 bits = 1 caractere Base64</p>
+                    <div className="exemplo">3 bytes → 4 caracteres</div>
+                  </div>
+                </div>
+                
+                <div className="seta">↓</div>
+                
+                <div className="passo">
+                  <div className="numero">4</div>
+                  <div className="desc">
+                    <h3>Padding (se necessário)</h3>
+                    <p>Se sobrar 1 ou 2 bytes, adiciona <code>=</code> ou <code>==</code></p>
+                    <div className="exemplo">1 byte → QQ==  |  2 bytes → QWE=</div>
                   </div>
                 </div>
               </div>
@@ -283,8 +294,23 @@ function App() {
                   </div>
                   {textoBase64.includes('=') && (
                     <div className="padding-explicacao">
-                      <strong>⚠️ Padding:</strong> O caractere <code>=</code> é adicionado quando o número de bits 
-                      não é múltiplo de 6, garantindo que o resultado tenha um comprimento múltiplo de 4 caracteres.
+                      <strong>⚠️ Sobre o Padding (=):</strong>
+                      <div style={{marginTop: '8px'}}>
+                        <p style={{marginBottom: '8px'}}>
+                          Base64 trabalha com <strong>grupos de 3 bytes</strong>:
+                        </p>
+                        <ul style={{marginLeft: '20px', marginBottom: '8px'}}>
+                          <li>3 bytes (24 bits) = 4 caracteres Base64</li>
+                          <li>2 bytes (16 bits) = 3 caracteres Base64 + 1 padding (<code>=</code>)</li>
+                          <li>1 byte (8 bits) = 2 caracteres Base64 + 2 paddings (<code>==</code>)</li>
+                        </ul>
+                        <p style={{marginTop: '8px', padding: '8px', background: 'rgba(255,255,255,0.3)', borderRadius: '4px'}}>
+                          Neste exemplo: <strong>"{textoOriginal}"</strong> tem <strong>{new Blob([textoOriginal]).size} bytes</strong>.<br/>
+                          {new Blob([textoOriginal]).size % 3 === 1 && '1 byte sobrou → 2 paddings (==)'}
+                          {new Blob([textoOriginal]).size % 3 === 2 && '2 bytes sobraram → 1 padding (=)'}
+                          {new Blob([textoOriginal]).size % 3 === 0 && 'Múltiplo de 3 → sem padding'}
+                        </p>
+                      </div>
                     </div>
                   )}
                 </div>

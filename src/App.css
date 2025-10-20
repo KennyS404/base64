@@ -515,13 +515,37 @@
 
 .padding-explicacao {
   margin-top: 15px;
-  padding: 12px;
+  padding: 15px;
   background: #fef5e7;
   border-left: 4px solid #f39c12;
   border-radius: 4px;
   color: #2d3748;
   font-size: 0.95rem;
-  line-height: 1.5;
+  line-height: 1.6;
+}
+
+.padding-explicacao ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.padding-explicacao li {
+  padding: 6px 0;
+  position: relative;
+  padding-left: 20px;
+}
+
+.padding-explicacao li:before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #f39c12;
+  font-weight: bold;
+}
+
+.padding-explicacao p {
+  margin: 0;
+  line-height: 1.6;
 }
 
 .padding-explicacao code {
