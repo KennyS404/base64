@@ -49,9 +49,6 @@
   font-weight: 500;
 }
 
-.content {
-}
-
 .card {
   background: white;
   border-radius: 8px;
@@ -414,6 +411,129 @@
   background: #f7fafc;
 }
 
+.agrupamento-6bits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.grupo-6bits {
+  background: #f7fafc;
+  border: 2px solid #5a67d8;
+  border-radius: 6px;
+  padding: 10px;
+  min-width: 100px;
+  text-align: center;
+}
+
+.grupo-label {
+  font-size: 0.85rem;
+  color: #5a67d8;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.grupo-binario {
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  color: #2d3748;
+  font-weight: 600;
+  background: white;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+}
+
+.conversao-base64 {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.linha-base64 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px;
+  background: #f7fafc;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+}
+
+.grupo-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.label-pequeno {
+  font-size: 0.8rem;
+  color: #718096;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.valor-binario {
+  background: #2d3748;
+  color: #68d391;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem;
+  font-weight: 600;
+  min-width: 80px;
+  text-align: center;
+}
+
+.valor-decimal {
+  background: #4a5568;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  font-weight: 600;
+  min-width: 60px;
+  text-align: center;
+}
+
+.valor-base64 {
+  background: #5a67d8;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 1.2rem;
+  font-weight: 700;
+  min-width: 50px;
+  text-align: center;
+}
+
+.padding-explicacao {
+  margin-top: 15px;
+  padding: 12px;
+  background: #fef5e7;
+  border-left: 4px solid #f39c12;
+  border-radius: 4px;
+  color: #2d3748;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.padding-explicacao code {
+  background: white;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  color: #5a67d8;
+  border: 1px solid #e2e8f0;
+  font-weight: 600;
+}
+
 .explicacao-imagem {
   background: #f7fafc;
   padding: 15px;
@@ -551,6 +671,31 @@
   .tabela-row .caractere {
     padding: 4px;
     font-size: 0.8rem;
+  }
+  
+  .agrupamento-6bits {
+    gap: 8px;
+  }
+  
+  .grupo-6bits {
+    min-width: 80px;
+  }
+  
+  .linha-base64 {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .grupo-info {
+    width: 100%;
+  }
+  
+  .valor-binario,
+  .valor-decimal,
+  .valor-base64 {
+    width: 100%;
+    min-width: unset;
   }
 }
 

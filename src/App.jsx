@@ -14,13 +14,39 @@ function App() {
     })
   }
 
-  const binarioParaBase64 = (binario) => {
-    const btoa64 = btoa(binario)
-    return btoa64
+  const agruparEm6Bits = (texto) => {
+    const base64Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+    const bitsCompletos = texto.split('').map(c => c.charCodeAt(0).toString(2).padStart(8, '0')).join('')
+    
+    const grupos = []
+    let i = 0
+    
+    while (i < bitsCompletos.length) {
+      let grupo6bits = bitsCompletos.substr(i, 6)
+      
+      if (grupo6bits.length < 6) {
+        grupo6bits = grupo6bits.padEnd(6, '0')
+      }
+      
+      const decimal = parseInt(grupo6bits, 2)
+      const charBase64 = base64Chars[decimal]
+      
+      grupos.push({
+        binario: grupo6bits,
+        decimal: decimal,
+        char: charBase64,
+        posicao: Math.floor(i / 6)
+      })
+      
+      i += 6
+    }
+    
+    return { grupos, bitsCompletos }
   }
 
   const processarTexto = textoParaBinario(textoOriginal)
   const textoBase64 = btoa(textoOriginal)
+  const agrupamento = agruparEm6Bits(textoOriginal)
 
   const handleImagemUpload = (e) => {
     const file = e.target.files[0]
@@ -213,6 +239,54 @@ function App() {
                   <div className="bits-completos">
                     {processarTexto.map(item => item.binario).join(' ')}
                   </div>
+                </div>
+
+                <div className="card">
+                  <h3>3. Agrupamento em 6 bits:</h3>
+                  <p style={{marginBottom: '15px', color: '#4a5568'}}>
+                    Os bits são reagrupados de 8 em 8 para 6 em 6. Cada grupo de 6 bits representa um valor de 0 a 63.
+                  </p>
+                  <div className="agrupamento-6bits">
+                    {agrupamento.grupos.map((grupo, index) => (
+                      <div key={index} className="grupo-6bits">
+                        <div className="grupo-label">Grupo {index + 1}</div>
+                        <div className="grupo-binario">{grupo.binario}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="card">
+                  <h3>4. Conversão para caracteres Base64:</h3>
+                  <p style={{marginBottom: '15px', color: '#4a5568'}}>
+                    Cada grupo de 6 bits é convertido para decimal (0-63) e mapeado para um caractere da tabela Base64.
+                  </p>
+                  <div className="conversao-base64">
+                    {agrupamento.grupos.map((grupo, index) => (
+                      <div key={index} className="linha-base64">
+                        <div className="grupo-info">
+                          <span className="label-pequeno">Binário</span>
+                          <div className="valor-binario">{grupo.binario}</div>
+                        </div>
+                        <div className="seta-pequena">→</div>
+                        <div className="grupo-info">
+                          <span className="label-pequeno">Decimal</span>
+                          <div className="valor-decimal">{grupo.decimal}</div>
+                        </div>
+                        <div className="seta-pequena">→</div>
+                        <div className="grupo-info">
+                          <span className="label-pequeno">Base64</span>
+                          <div className="valor-base64">{grupo.char}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  {textoBase64.includes('=') && (
+                    <div className="padding-explicacao">
+                      <strong>⚠️ Padding:</strong> O caractere <code>=</code> é adicionado quando o número de bits 
+                      não é múltiplo de 6, garantindo que o resultado tenha um comprimento múltiplo de 4 caracteres.
+                    </div>
+                  )}
                 </div>
               </div>
             )}
